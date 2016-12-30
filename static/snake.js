@@ -162,6 +162,12 @@ function Snake() {
 Snake.prototype = new Chainable;
 Snake.prototype.constructor = Snake;
 
+function Player(id) {
+
+    this.id = id;
+    this.snake = Snake();
+}
+
 // END Object Models
 
 // START execution functions
@@ -169,7 +175,13 @@ Snake.prototype.constructor = Snake;
 // Runs the main game loop
 function main(canvasContext) {
 
-    var snake = new Snake();
+    var connection = Connection();
+
+    var player1 = null;
+    connection.thisPlayerDidEnter(function (playerID) {
+        player1 = Player(playerID);
+    });
+
     var goldPiece = new GoldPiece();
 
     document.addEventListener('keydown', function(event) {
@@ -197,15 +209,15 @@ function main(canvasContext) {
     setInterval(function(){
 
         if(framesSinceLastMove == MAX_FRAMES_SINCE_LAST_MOVE) {
-            snake.move();
+            player1.snake.move();
 
             if(checkBlockCollision(snake.segments[0], goldPiece)) {
                 goldPiece = new GoldPiece(); // Gold Piece will be generated in another random location
-                snake.addSegment();
+                player1.snake.addSegment();
             }
 
             fillCanvas(canvasContext, BLACK);
-            snake.draw(canvasContext);
+            player1.snake.draw(canvasContext);
             goldPiece.draw(canvasContext);
 
             framesSinceLastMove = 0;

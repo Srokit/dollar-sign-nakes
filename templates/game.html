@@ -7,8 +7,14 @@
     <!-- Third Party Scripts -->
     <script src="{{ url_for('static', filename='socket.io-1.4.5.js') }}"></script>
 
+    <script>
+        socketio = io();
+    </script>
+
     <!-- Game Scripts -->
+    <script src="{{ url_for('static', filename='connection.js') }}"></script>
     <script src="{{ url_for('static', filename='snake.js') }}"></script>
+
 </head>
 <body>
 
@@ -17,6 +23,8 @@
     <canvas id="gameCanvas" width="{{ canvas_width }}" height="{{ canvas_height }}"></canvas>
 
     <script>
+
+
         var canvasContext = document.getElementById('gameCanvas').getContext('2d');
 
         main(canvasContext);
