@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>$nakes | Game</title>
+
+    <!-- Third Party Scripts -->
+    <script src="{{ url_for('static', filename='socket.io-1.4.5.js') }}"></script>
+
+    <!-- Game Scripts -->
+    <script src="{{ url_for('static', filename='snake.js') }}"></script>
+</head>
+<body>
+
+    <h3 style="margin: 0; padding: 0;">$nakes: How Long will you last?!?</h3>
+
+    <canvas id="gameCanvas" width="{{ canvas_width }}" height="{{ canvas_height }}"></canvas>
+
+    <script>
+        var canvasContext = document.getElementById('gameCanvas').getContext('2d');
+
+        main(canvasContext);
+    </script>
+</body>
+</html>
