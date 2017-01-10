@@ -7,5 +7,5 @@ setup(
     packages=['$nakes'],
     include_package_data=True,
     zip_safe=False,
-    install_requires=['Flask', 'Flask-SocketIO']
+    install_requires=['Flask', 'asyncio']
 )

@@ -7,6 +7,15 @@
 <body>
     <h2>Welcome to $nakes!</h2>
     <h4>Where Snakes make the $$$</h4>
-    <a href="/game">Get in the Game!</a>
+    <form action="/api/game/new" method="POST">
+        <h4>Start a game!</h4>
+        Name: <input type="text" name="name"/>
+    </form>
+    <h4>Or join a game below!</h4>
+    {% for game in games %}
+
+        <a href="/api/game/join?name={{game}}">{{game}}</a>
+
+    {% endfor %}
 </body>
 </html>
