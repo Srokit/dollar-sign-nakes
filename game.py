@@ -67,6 +67,11 @@ class Snake:
 
     def move(self):
 
+        self.last_tail_position = {
+            'x': self.segments[len(self.segments) - 1].pos['x'],
+            'y': self.segments[len(self.segments) - 1].pos['y']
+        }
+
         for i in range(len(self.segments) - 1, 0, -1):
             self.segments[i].pos['x'] = self.segments[i-1].pos['x']
             self.segments[i].pos['y'] = self.segments[i-1].pos['y']
@@ -90,6 +95,9 @@ class Snake:
         elif self.direction == 'down' and new_direction == 'up':
             return
         self.direction = new_direction
+
+    def add_segment(self):
+        self.segments.append( BodySegment(self.last_tail_position['x'], self.last_tail_position['y']) )
 
 
 class Wall:
@@ -118,6 +126,15 @@ class Player:
 
     def change_dir(self, new_direction):
         self.snake.change_dir(new_direction)
+
+    def check_gold_piece_collision(self, gold_piece_pos):
+        if self.snake.segments[0].pos == gold_piece_pos:
+            print "Gold Piece Collected"
+            return True
+        return False
+
+    def add_segment(self):
+        self.snake.add_segment()
 
 
 class Game:
@@ -152,6 +169,11 @@ class Game:
             if self.check_competing_player_collision():
                 self.disconnect_player(thisPlayerID)
                 return False
+            for playerID in self.players:
+                if self.players[playerID].check_gold_piece_collision(self.gold_piece.pos):
+                    self.players[playerID].add_segment()
+                    # Spawn the gold piece somewhere else now
+                    self.gold_piece = GoldPiece()
             self.requests_since_move = 0
         return True
 
@@ -197,3 +219,5 @@ class Game:
                         print "Collision"
                         return True
         return False
+
+
