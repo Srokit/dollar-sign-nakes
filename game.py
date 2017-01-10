@@ -16,8 +16,6 @@ GREEN = '#00FF00'
 GOLD = '#FFFF00'
 GRAY = '#999999'
 
-
-
 class Block:
 
     def __init__(self, pos_x, pos_y):
