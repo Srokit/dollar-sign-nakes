@@ -9,7 +9,7 @@ STEPS_PER_SEC = 30
 
 
 # Main flask application object
-app = flask.Flask(__name__)
+application = flask.Flask(__name__)
 
 # Game objects by game name
 games = {}
@@ -43,11 +43,11 @@ def dict_from_game_object(game_obj):
 
 # START ROUTES
 
-@app.route('/', methods=['GET'])
+@application.route('/', methods=['GET'])
 def get_root():
     return flask.render_template('index.html', games=games.keys())
 
-@app.route('/game', methods=['GET'])
+@application.route('/game', methods=['GET'])
 def get_game():
     game_name = flask.request.args['name']
     player_id = flask.request.args['playerid']
@@ -55,7 +55,7 @@ def get_game():
                                  game_name=game_name, player_id=player_id)
 
 
-@app.route('/api/game/new', methods=['POST'])
+@application.route('/api/game/new', methods=['POST'])
 def post_game_new():
 
     game_name = flask.request.form['name']
@@ -63,7 +63,7 @@ def post_game_new():
 
     return flask.redirect('/api/game/join?name='+game_name)
 
-@app.route('/api/game', methods=['GET'])
+@application.route('/api/game', methods=['GET'])
 def get_game_state():
     game_name = flask.request.args['name']
     playerID = flask.request.args['playerid']
@@ -73,7 +73,7 @@ def get_game_state():
 
     return flask.jsonify({'game': dict_from_game_object(game)})
 
-@app.route('/api/game/changedir', methods=['POST'])
+@application.route('/api/game/changedir', methods=['POST'])
 def post_game_changedir():
     game_name = flask.request.form['name']
     new_direction = flask.request.form['new_direction']
@@ -82,7 +82,7 @@ def post_game_changedir():
     game.change_dir(playerID, new_direction)
     return flask.jsonify({'success': True})
 
-@app.route('/api/game/join', methods=['GET'])
+@application.route('/api/game/join', methods=['GET'])
 def get_game_join():
     game_name = flask.request.args['name']
     game = games[game_name]
@@ -97,7 +97,7 @@ def printStartMess(port):
 
 if __name__ == '__main__':
     printStartMess(PORT)
-    app.run(port=PORT, debug=True)
+    application.run(port=PORT)
 
 
 # Helpers
